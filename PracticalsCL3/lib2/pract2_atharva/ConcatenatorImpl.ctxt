@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=ConcatenatorImpl
+comment1.params=
+comment1.target=ConcatenatorImpl()
+comment2.params=a\ b
+comment2.target=java.lang.String\ concatenate(java.lang.String,\ java.lang.String)
+numComments=3
