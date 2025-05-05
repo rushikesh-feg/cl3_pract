@@ -1,0 +1,49 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class HotelBookingImpl extends UnicastRemoteObject implements HotelBookingInterface {
+   private Map<Integer, String> bookings = new HashMap();
+
+   protected HotelBookingImpl() throws RemoteException {
+   }
+
+   public synchronized String bookRoom(String var1, int var2) throws RemoteException {
+      if (this.bookings.containsKey(var2)) {
+         return "Room " + var2 + " is already booked by " + (String)this.bookings.get(var2);
+      } else {
+         this.bookings.put(var2, var1);
+         return "Room " + var2 + " successfully booked for " + var1;
+      }
+   }
+
+   public synchronized String cancelBooking(String var1, int var2) throws RemoteException {
+      if (!this.bookings.containsKey(var2)) {
+         return "Room " + var2 + " is not currently booked.";
+      } else if (!((String)this.bookings.get(var2)).equals(var1)) {
+         return "Booking cancellation failed: Room " + var2 + " is booked by " + (String)this.bookings.get(var2);
+      } else {
+         this.bookings.remove(var2);
+         return "Booking for room " + var2 + " cancelled for " + var1;
+      }
+   }
+
+   public synchronized String viewBookings() throws RemoteException {
+      if (this.bookings.isEmpty()) {
+         return "No rooms are currently booked.";
+      } else {
+         StringBuilder var1 = new StringBuilder("Current Bookings:\n");
+         Iterator var2 = this.bookings.entrySet().iterator();
+
+         while(var2.hasNext()) {
+            Map.Entry var3 = (Map.Entry)var2.next();
+            var1.append("Room ").append(var3.getKey()).append(" is booked by ").append((String)var3.getValue()).append("\n");
+         }
+
+         return var1.toString();
+      }
+   }
+}
